@@ -1,119 +1,106 @@
-# Bridge API Reference
+# Javascript API Reference
 
-## For Dapps
+## For Dapps (Browser SDK)
 
-### Create a new Session
+```js
+/**
+ * @desc returns if walletconnect session is connected
+ * @returns {Boolean}
+ */
+const isConnected
 
-```bash
-  POST https://bridge.walletconnect.org/session/new
+/**
+ * @desc returns walletconnect session uri
+ * @returns {String}
+ */
+const uri
 
-  Response:
-  Status: 200
-  Content-Type: application/json; charset=utf-7
-  Body:
-  {
-    "sessionId": <someSessionId>
-  }
-```
+/**
+ * @desc returns walletconnect active listeners
+ * @returns {Array}
+ */
+const listeners
 
-### Get Session details (short-polling)
+/**
+ * @desc stops last activated listener
+ * @returns {Boolean}
+ */
+function stopLastListener() {}
 
-```bash
-  GET https://bridge.walletconnect.org/session/<sessionId>
 
-  Response (when details exist):
-  Status: 200
-  Content-Type: application/json; charset=utf-7
-  Body:
-  {
-    "encryptionPayload": <encryptedSessionPayload>
-  }
+/**
+ * @desc returns walletconnect session data
+ * @returns {Object}
+ */
+function toJSON() {}
 
-  Response (when details do not yet exist):
-  Status: 204
-```
+/**
+ * @desc initiates new or existing session
+ * @returns {Promise}
+ */
+async function initSession() {}
 
-### Create new Call Request
 
-```bash
-  POST https://bridge.walletconnect.org/session/<sessionId>/call/new
-  Content-Type: application/json
-  Body:
-  {
-    "encryptionPayload": <encryptedCallRequestPayload>,
-    "dappName": <ExampleDappName>
-  }
+/**
+ * @desc creates new session
+ * @returns {Promise}
+ */
+async function createSession() {}
 
-  Response:
-  Status: 200
-  Content-Type: application/json; charset=utf-7
-  Body:
-  {
-      "callId": <callId>
-  }
-```
 
-### Get Call status (short-polling)
+/**
+ * @desc send transaction - call eth_sendTransaction
+ * @param   {Object}  [tx]
+ * @returns {Promise}
+ */
+async function sendTransaction() {}
 
-```bash
-  GET https://bridge.walletconnect.org/session/<sessionId>/call/<callId>/status
+/**
+ * @desc sign message - call eth_sign
+ * @param   {String}  [msg]
+ * @returns {Promise}
+ */
+async function signMessage() {}
 
-  Response (when status does exist):
-  Status: 200
-  Content-Type: application/json; charset=utf-7
-  {
-    "encryptionPayload": <encryptedCallStatus>
-  }
+/**
+ * @desc sign typed data - call eth_signTypedData
+ * @param   {Object}  [msgParams]
+ * @returns {Promise}
+ */
+async function signTypedData() {}
 
-  Response (when status does not yet exist):
-  Status: 204
-```
+/**
+ * @desc create JSON RPC call request
+ * @param   {Object}  [msgParams]
+ * @returns {Promise}
+ */
+async function createCallRequest() {}
 
-## For Wallets
+/**
+ * @desc get session status from bridge url
+ * @returns {Promise}
+ */
+async function getSessionStatus() {}
 
-### Update Session details
+/**
+ * @desc get call status from bridge url
+ * @returns {Promise}
+ */
+async function getCallStatus() {}
 
-```bash
-  PUT https://bridge.walletconnect.org/session/<sessionId>
-  Content-Type: application/json
-  Body:
-  {
-    "encryptionPayload":<someEncryptedSessionPayload>,
-    "push": {
-      "type": <pushType>,
-      "token": <pushToken>,
-      "webhook": <pushWebhook>
-    }
-  }
+/**
+ * @desc listen for session status (short-polling)
+ * @param   {Number}    [interval]
+ * @param	  {Number}    [timeout]
+ * @returns {Promise}
+ */
+async function listenSessionStatus() {}
 
-  Response:
-  Status: 200
-```
-
-### Get Call Request details
-
-```bash
-  GET https://bridge.walletconnect.org/session/<sessionId>/call/<callId>
-
-  Response:
-  Status: 200
-  Content-Type: application/json; charset=utf-7
-  Body:
-  {
-    "encryptionPayload": <encryptedCallRequest>
-  }
-```
-
-### Add Call Status
-
-```bash
-  POST https://bridge.walletconnect.org/session/<sessionId>/call/<callId>/status/new
-  Content-Type: application/json
-  Body:
-  {
-    "encryptionPayload": <encryptedCallStatus>
-  }
-
-  Response:
-  Status: 200
+/**
+ * @desc listen for call status (short-polling)
+ * @param   {Number}    [interval]
+ * @param	  {Number}    [timeout]
+ * @returns {Promise}
+ */
+async function listenCallStatus() {}
 ```
